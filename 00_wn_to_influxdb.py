@@ -11,26 +11,26 @@ data_file = 'data.csv'
 file_list = ['timestamps.csv', 'timestamps_unix.csv', 'data.csv', 'input.csv']
 
 def remove_first_row(input_file):
-    with open(input_file, 'r') as file:
+    with open(input_file, 'r', encoding='utf-8-sig') as file:
         reader = csv.reader(file)
         data = list(reader)
     
     data = data[1:]  # Exclude the first row
     
-    with open(input_file, 'w', newline='') as file:
+    with open(input_file, 'w', encoding='utf-8-sig', newline='') as file:
         writer = csv.writer(file)
         writer.writerows(data)
 
 def count_rows(input_file):
     global no_of_rows
     
-    with open(input_file, 'r', newline='') as file:
+    with open(input_file, 'r', encoding='utf-8-sig', newline='') as file:
         reader = csv.reader(file)
         rows = list(reader)
         no_of_rows = len(rows)
 
 def remove_double_semicolon(input_file):
-    with open(input_file, 'r', newline='') as file:
+    with open(input_file, 'r', encoding='utf-8-sig', newline='') as file:
         rows = csv.reader(file)
         updated_rows = []
 
@@ -38,33 +38,33 @@ def remove_double_semicolon(input_file):
             updated_row = [cell.replace(';;', '') for cell in row]
             updated_rows.append(updated_row)
 
-    with open(input_file, 'w', newline='') as file:
+    with open(input_file, 'w', encoding='utf-8-sig', newline='') as file:
         writer = csv.writer(file)
         writer.writerows(updated_rows)
 
 def replace_comma_with_dot(input_file):
-    with open(input_file, 'r', newline='') as file:
+    with open(input_file, 'r', encoding='utf-8-sig', newline='') as file:
         lines = file.readlines()
 
-    with open(input_file, 'w', newline='') as file:
+    with open(input_file, 'w', encoding='utf-8-sig', newline='') as file:
         for line in lines:
             updated_line = line.replace(',', '.')
             file.write(updated_line)
 
 def change_delimiter(input_file):
-    with open(input_file, 'r', newline='') as file:
+    with open(input_file, 'r', encoding='utf-8-sig', newline='') as file:
         rows = csv.reader(file, delimiter=';')
         data = [','.join(row) for row in rows]
 
-    with open(input_file, 'w', newline='') as file:
+    with open(input_file, 'w', encoding='utf-8-sig', newline='') as file:
         file.writelines('\n'.join(data))
 
 def extract_time_columns(input_file, timestamps):
-    with open(input_file, 'r', newline='') as file:
+    with open(input_file, 'r', encoding='utf-8-sig', newline='') as file:
         rows = csv.reader(file)
         extracted_data = [[row[0], row[2]] for row in rows]
 
-    with open(timestamps, 'w', newline='') as file:
+    with open(timestamps, 'w', encoding='utf-8-sig', newline='') as file:
         writer = csv.writer(file)
         writer.writerows(extracted_data)
 
@@ -91,16 +91,16 @@ def timestamps_to_unix(timestamps, timestamps_unix):
             writer.writerow([unix_timestamp])
 
 def create_output_csv(output_file, rows):
-    with open(output_file, 'w', newline='') as file:
+    with open(output_file, 'w', encoding='utf-8-sig', newline='') as file:
         writer = csv.writer(file)
         for _ in range(rows):
             row = ['kWh', 'entity_id=15_min_energy_usage']
             writer.writerow(row)
 
 def create_data_csv(input_file, timestamps_unix, data_file):
-    with open(input_file, 'r', newline='') as input_file, \
-            open(timestamps_unix, 'r', newline='') as timestamps, \
-            open(data_file, 'w', newline='') as data:
+    with open(input_file, 'r', encoding='utf-8-sig', newline='') as input_file, \
+            open(timestamps_unix, 'r', encoding='utf-8-sig', newline='') as timestamps, \
+            open(data_file, 'w', encoding='utf-8-sig', newline='') as data:
 
         input_file_reader = csv.reader(input_file)
         timestamps_reader = csv.reader(timestamps)
@@ -111,16 +111,16 @@ def create_data_csv(input_file, timestamps_unix, data_file):
             data_writer.writerow(data_row)
 
 def append_value_to_column(data_file):
-    with open(data_file, 'r', newline='') as file:
+    with open(data_file, 'r', encoding='utf-8-sig', newline='') as file:
         rows = csv.reader(file, delimiter= ' ')
         data = [row[:1] + ['value=' + row[1]] + row[2:] for row in rows]
 
-    with open('data.csv', 'w', newline='') as file:
+    with open('data.csv', 'w', encoding='utf-8-sig', newline='') as file:
         writer = csv.writer(file, delimiter= ' ')
         writer.writerows(data)
 
 def data_into_output(data_file, output_file):
-    with open(data_file, 'r', newline='') as data_file, open(output_file, 'r', newline='') as output_file:
+    with open(data_file, 'r', encoding='utf-8-sig', newline='') as data_file, open(output_file, 'r', encoding='utf-8-sig', newline='') as output_file:
         data_reader = csv.reader(data_file)
         output_reader = csv.reader(output_file)
         output_data = list(output_reader)
@@ -136,7 +136,7 @@ def data_into_output(data_file, output_file):
                 print("Error: data.csv has more rows than output.csv.")
                 return
 
-    with open('output.csv', 'w', newline='') as output_file:
+    with open('output.csv', 'w', encoding='utf-8-sig', newline='') as output_file:
         writer = csv.writer(output_file)
         writer.writerows(output_data)
 
